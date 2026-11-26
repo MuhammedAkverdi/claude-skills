@@ -1,0 +1,7 @@
+usage-log.csv
+.env
+*.mp4
+*.mp3
+*.wav
+*.jpg
+*.png
