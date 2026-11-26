@@ -31,11 +31,16 @@ foreach ($n in $names) {
 $missing = @()
 foreach ($tool in 'ffmpeg', 'ffprobe') { if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) { $missing += $tool } }
 if ($missing) { Write-Warning "Not found on PATH: $($missing -join ', ') (needed for video/audio/Reels)." }
-if (($names -contains 'elevenlabs-tts' -or $names -contains 'gemini-reels') -and -not ([Environment]::GetEnvironmentVariable('ELEVENLABS_API_KEY', 'User') -or $env:ELEVENLABS_API_KEY)) {
-    Write-Warning "ELEVENLABS_API_KEY is not set. See README (set it once in your own PowerShell)."
+if (($names -contains 'elevenlabs-tts') -and -not ([Environment]::GetEnvironmentVariable('ELEVENLABS_API_KEY', 'User') -or $env:ELEVENLABS_API_KEY)) {
+    Write-Warning "ELEVENLABS_API_KEY is not set (only needed for elevenlabs-tts; local-tts is free). See README."
 }
 if ($names -contains 'orchestration') {
     $noCli = @('agy', 'claude', 'git') | Where-Object { -not (Get-Command $_ -ErrorAction SilentlyContinue) }
     if ($noCli) { Write-Warning "orchestration: not found on PATH: $($noCli -join ', ') (agents run through the agy and claude CLIs)." }
+}
+if ($names -contains 'local-tts') {
+    if (-not (Test-Path (Join-Path $env:USERPROFILE '.local-tts\venv\Scripts\python.exe'))) {
+        Write-Host "local-tts: run once to install the free voices (~1.5 GB): powershell -ExecutionPolicy Bypass -File `"$Target\local-tts\scripts\setup.ps1`" -Warmup"
+    }
 }
 Write-Host "Done. Restart Claude Code so it picks up the new skills."

@@ -1,6 +1,6 @@
 ---
 name: elevenlabs-tts
-description: Generate Turkish and multilingual voiceovers, narration ("dış ses", "anlatıcı", "seslendirme") and character-level timestamps for exact subtitles with the user's ElevenLabs account via the REST API (`/with-timestamps`, ~2 s per clip, 10,000 free characters/month on the free plan). Use whenever a video, Reels, Short, ad or narration needs realistic Turkish speech or subtitle timing, or the user says "seslendir", "dış ses yap", "anlatıcı sesi", "voiceover", "text to speech", "metni oku". Default narrator engine for `gemini-reels` and `gemini-video`. Ask the user to approve the script text and the voice before spending characters.
+description: Generate Turkish and multilingual voiceovers, narration ("dış ses", "anlatıcı", "seslendirme") and character-level timestamps for exact subtitles with the user's ElevenLabs account via the REST API (`/with-timestamps`, ~2 s per clip, 10,000 free characters/month on the free plan). Use whenever a video, Reels, Short, ad or narration needs realistic Turkish speech or subtitle timing, or the user asks for ElevenLabs, a young female voice or a more emotional read. The free `local-tts` skill is the default narrator for `gemini-reels` and plain "seslendir" requests; use this one when the user chooses ElevenLabs. Ask the user to approve the script text and the voice before spending characters.
 ---
 
 # ElevenLabs TTS & Alignment (`elevenlabs-tts`)
