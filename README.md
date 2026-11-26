@@ -1,6 +1,6 @@
 # claude-skills
 
-Claude Code için medya ve arayüz skill'leri: fotoğraf, video, müzik, Türkçe dış ses, uçtan uca Instagram Reels ve "AI gibi görünmeyen" arayüz tasarımı.
+Claude Code için medya ve arayüz skill'leri: fotoğraf, video, müzik, Türkçe dış ses, uçtan uca Instagram Reels, "AI gibi görünmeyen" arayüz tasarımı ve bir projeyi birkaç AI ajanıyla yürüten orkestrasyon.
 Hepsi **kendi aboneliklerinizle** çalışır (Google AI Pro, ElevenLabs). Ücretli API anahtarı gerekmez; Claude işi sizin Chrome'unuzda, giriş yapılmış hesaplarınızla yapar.
 
 *English summary below.*
@@ -15,6 +15,7 @@ Hepsi **kendi aboneliklerinizle** çalışır (Google AI Pro, ElevenLabs). Ücre
 | **elevenlabs-tts** | Türkçe dış ses + kelime kelime zaman damgası (altyazı için) | ElevenLabs REST API (ücretsiz plan çalışır) |
 | **gemini-reels** | Baştan sona dikey video: senaryo → 9:16 görseller → Veo hareket → dış ses → müzik → montaj, kelime kelime altyazı, kapak, Instagram açıklaması | Yukarıdaki 4 skill + ffmpeg |
 | **ui-design** | Şablon gibi durmayan arayüzler: tasarım tezi, "AI-slop" testi, gerçek tarayıcıda masaüstü/mobil kontrol, P0–P3 düzeltme | Claude'un tarayıcısı veya Claude in Chrome |
+| **orchestration** | Bir projeyi birkaç AI ajanıyla yürütür: Claude lider olur (planlar, brief yazar, ölçer, hakemlik yapar, birleştirir; ürün kodu yazmaz), işi rollere dağıtır. Arka planda ajan başlatma + izleme, otomatik kalite kapısı, kota takibi ve yedek modele geçiş, görev grafiği, worktree yönetimi, merge treni, panel (dashboard). Tüm durum `orchestrator/*.md` dosyalarında, bağlam dolsa da kaybolmaz | agy CLI (Gemini Neon/Hydrogen/Carbon) + Claude Code CLI (Sonnet) + git |
 
 Her skill önce **kısa sorular sorar** (kullanım yeri, stil, süre, ses…), kredi veya kota harcamadan önce **onay alır** ve sonucu teslim etmeden önce kendisi kontrol eder.
 
@@ -25,6 +26,7 @@ Her skill önce **kısa sorular sorar** (kullanım yeri, stil, süre, ses…), k
 - **Google AI Pro** aboneliği (Gemini, Flow, Flow Music)
 - **ffmpeg / ffprobe** PATH'te (video, ses ve montaj için)
 - `elevenlabs-tts` ve `gemini-reels` için **ElevenLabs API anahtarı** (ücretsiz plan yeterli)
+- `orchestration` için **git**, **agy** (Google Antigravity CLI, giriş yapılmış) ve **claude** CLI PATH'te; agy'nin `~/.gemini/antigravity-cli/settings.json` dosyasında `"allowNonWorkspaceAccess": true`
 - Windows + PowerShell üzerinde test edildi (komutlar PowerShell 5.1 uyumlu)
 
 ## Kurulum
@@ -58,6 +60,7 @@ $k = Read-Host "ElevenLabs anahtari" -AsSecureString; [Environment]::SetEnvironm
 - "Kızım için Türkçe sözlü bir doğum günü şarkısı yap" → `gemini-music`
 - "60 saniyelik bir çocuk masalı reels'i yap, kadın anlatıcı olsun" → `gemini-reels`
 - "Kafem için landing page tasarla" → `ui-design`
+- "Bu projede lider ol, işi ajanlara dağıt" → `orchestration`
 
 ## Güvenlik ve maliyet kuralları (skill'lerin içinde)
 
@@ -73,7 +76,7 @@ $k = Read-Host "ElevenLabs anahtari" -AsSecureString; [Environment]::SetEnvironm
 
 ## English summary
 
-Media and UI skills for Claude Code that run on **your own subscriptions** (Google AI Pro, ElevenLabs) through your signed-in Chrome — no paid API keys.
+Media, UI and multi-agent orchestration skills for Claude Code. The media skills run on **your own subscriptions** (Google AI Pro, ElevenLabs) through your signed-in Chrome — no paid API keys.
 
 - **gemini-image** — images in Google Flow (Nano Banana Pro, 0 credits), sizing for social formats, transparent PNG.
 - **gemini-video** — Veo clips via Gemini, image-to-video, joining clips with ffmpeg, rolling 5-hour quota tracking.
@@ -81,6 +84,7 @@ Media and UI skills for Claude Code that run on **your own subscriptions** (Goog
 - **elevenlabs-tts** — narration with character timestamps for exact subtitles.
 - **gemini-reels** — end-to-end vertical Reels: script → 9:16 keyframes → Veo motion → voiceover → music → ffmpeg assembly with word-by-word subtitles, cover and caption.
 - **ui-design** — anti-slop UI design with a two-pass design thesis and a real-browser desktop/mobile gate.
+- **orchestration** — multi-agent project lead: Claude plans, briefs, measures, referees and merges while agy (Gemini) and Claude Code CLI agents do the work by role; background launcher + watcher, quality gate, quota ledger with fallback, task DAG scheduler, worktrees, merge train, dashboard; all state in `orchestrator/*.md`. Needs git, agy and the claude CLI.
 
 Install: clone and run `install.ps1` (copies into `~/.claude/skills`, backs up existing ones). Requires Claude Code, the Claude in Chrome extension, Google AI Pro, ffmpeg, and an ElevenLabs API key for narration. Tested on Windows/PowerShell.
 

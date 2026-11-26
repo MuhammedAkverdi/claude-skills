@@ -1,0 +1,39 @@
+{
+  "lead": { "model": "claude-opus-5-5", "effort": "medium" },
+  "roles": {
+    "worker":     { "engine": "agy",    "model": "gemini-4-neon-medium",    "mode": "accept-edits", "fallback": "gemini-4-neon-low" },
+    "worker2":    { "engine": "claude", "model": "claude-sonnet-5-5", "effort": "medium", "mode": "accept-edits", "fallback": null, "fallbackRole": "worker" },
+    "tester":     { "engine": "agy",    "model": "gemini-4-hydrogen-high",  "mode": "accept-edits", "fallback": "gemini-4-hydrogen-medium" },
+    "auditor":    { "engine": "agy",    "model": "gemini-4-hydrogen-high",  "mode": "plan",         "fallback": "gemini-4-hydrogen-medium" },
+    "architect":  { "engine": "agy",    "model": "gemini-4-carbon-medium",  "mode": "accept-edits", "fallback": null },
+    "researcher": { "engine": "agy",    "model": "gemini-4-hydrogen-xhigh", "mode": "plan",         "fallback": "gemini-4-hydrogen-high" }
+  },
+  "routing": {
+    "code":     ["worker", "architect"],
+    "hardcode": ["architect"],
+    "test":     ["tester"],
+    "audit":    ["auditor"],
+    "referee":  ["auditor"],
+    "design":   ["architect"],
+    "research": ["researcher"]
+  },
+  "quotaGroups": {
+    "agy-neon":     ["gemini-4-neon-*"],
+    "agy-hydrogen": ["gemini-4-hydrogen-*"],
+    "agy-carbon":   ["gemini-4-carbon-*"],
+    "agy-flash":    ["gemini-3.8-flash-*"],
+    "claude":       ["claude-*"]
+  },
+  "commandProfiles": {
+    "git-inspect": ["git status --porcelain", "git diff --stat", "git log --oneline -5"]
+  },
+  "forbiddenCommandPatterns": ["reset\\s+--hard", "--amend\\b", "\\bgit\\s+clean\\b", "measure-all"],
+  "testGlobs": ["test/*", "tests/*", "spec/*", "__tests__/*", "*.test.*", "*.spec.*", "*_test.*", "test_*"],
+  "limits": {
+    "maxParallel": 3, "agentsPerWorktree": 1, "cooldownMin": 300, "idleMin": 10, "defaultTimeoutMin": 60,
+    "maxTurns": { "worker": 60, "worker2": 60, "tester": 50, "auditor": 40, "architect": 80, "researcher": 40 },
+    "maxLogMB": 3, "maxRepeatErrors": 3, "maxConsecutiveDenials": 3,
+    "briefWarnLines": 150, "briefMaxLines": 400, "reportMaxLines": 35,
+    "claudeReservePct": 30, "coalesceSec": 15
+  }
+}

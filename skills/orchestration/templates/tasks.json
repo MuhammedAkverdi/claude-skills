@@ -1,0 +1,15 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "<gorev basligi>",
+      "type": "code",
+      "role": null,
+      "deps": [],
+      "files": ["src/<alan>/*"],
+      "priority": 5,
+      "status": "pending",
+      "agent": null
+    }
+  ]
+}
